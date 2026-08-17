@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>Залізо — щоденник тренувань</title>
+<meta name="description" content="Додаток для силових тренувань: власні програми, підходи, таймер відпочинку та прогрес">
+<meta name="theme-color" content="#16181C">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Залізо">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="app">
+
+  <header class="topbar">
+    <div class="topbar-brand">
+      <span class="topbar-mark">З</span>
+      <span class="topbar-title">ЗАЛІЗО</span>
+    </div>
+    <button id="installBtn" class="install-btn" hidden>Встановити</button>
+  </header>
+
+  <main id="view" class="view"></main>
+
+  <nav class="tabbar">
+    <button class="tab" data-tab="today" aria-label="Сьогодні">
+      <svg viewBox="0 0 24 24" class="tab-icon"><path d="M3 12h3v4H3zM9 8h3v8H9zM15 5h3v11h-3zM3 18h18v1.4H3z"/></svg>
+      <span>Сьогодні</span>
+    </button>
+    <button class="tab" data-tab="programs" aria-label="Програми">
+      <svg viewBox="0 0 24 24" class="tab-icon"><path d="M4 5h16v2H4zM4 11h16v2H4zM4 17h10v2H4z"/></svg>
+      <span>Програми</span>
+    </button>
+    <button class="tab" data-tab="history" aria-label="Історія">
+      <svg viewBox="0 0 24 24" class="tab-icon"><path d="M12 3a9 9 0 1 0 9 9h-2a7 7 0 1 1-7-7V3zm.5 4H11v6l5 3 .8-1.3-4.3-2.6z"/></svg>
+      <span>Історія</span>
+    </button>
+  </nav>
+
+</div>
+
+<div id="toast" class="toast" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>
