@@ -1,0 +1,65 @@
+name: Build Android APK
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - main
+    paths:
+      - "twa-manifest.json"
+      - ".github/workflows/build-apk.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Bubblewrap CLI
+        run: npm install -g @bubblewrap/cli
+
+      - name: Generate signing key
+        run: |
+          keytool -genkeypair -v \
+            -keystore android.keystore \
+            -alias zalizo \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass zalizo12345 -keypass zalizo12345 \
+            -dname "CN=Zalizo App, OU=Zalizo, O=Zalizo, L=Kyiv, S=Kyiv, C=UA"
+
+      - name: Build APK with Bubblewrap
+        run: |
+          printf 'zalizo12345\nzalizo12345\n' | bubblewrap build --skipPwaValidation
+
+      - name: Rename APK
+        run: mv app-release-signed.apk zalizo.apk
+
+      - name: Upload APK as workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: zalizo-apk
+          path: zalizo.apk
+
+      - name: Publish APK to a GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: apk-${{ github.run_number }}
+          name: "Zalizo APK build ${{ github.run_number }}"
+          files: zalizo.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
