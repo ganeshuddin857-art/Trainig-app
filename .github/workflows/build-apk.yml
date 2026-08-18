@@ -25,6 +25,9 @@ jobs:
           distribution: temurin
           java-version: "17"
 
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -32,6 +35,14 @@ jobs:
 
       - name: Install Bubblewrap CLI
         run: npm install -g @bubblewrap/cli
+
+      - name: Pre-configure Bubblewrap (skip JDK/SDK install prompts)
+        run: |
+          mkdir -p ~/.bubblewrap
+          cat > ~/.bubblewrap/config.json << EOF
+          {"jdkPath": "$JAVA_HOME", "androidSdkPath": "$ANDROID_HOME"}
+          EOF
+          cat ~/.bubblewrap/config.json
 
       - name: Generate signing key
         run: |
@@ -44,7 +55,7 @@ jobs:
 
       - name: Build APK with Bubblewrap
         run: |
-          printf 'zalizo12345\nzalizo12345\n' | bubblewrap build --skipPwaValidation
+          printf 'zalizo12345\nzalizo12345\n\n\n\n' | bubblewrap build --skipPwaValidation
 
       - name: Rename APK
         run: mv app-release-signed.apk zalizo.apk
