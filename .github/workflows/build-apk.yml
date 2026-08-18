@@ -55,8 +55,7 @@ jobs:
 
       - name: Build APK with Bubblewrap
         run: |
-          printf 'zalizo12345\nzalizo12345\n\n\n\n' | bubblewrap build --skipPwaValidation
-
+                    printf 'y\nzalizo12345\nzalizo12345\ny\ny\ny\n' | bubblewrap build --skipPwaValidation
       - name: Rename APK
         run: mv app-release-signed.apk zalizo.apk
 
